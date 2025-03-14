@@ -17,7 +17,7 @@ function eliminarDatos() {
 }
 
 function repositorio() {
-    window.location.href = "https://github.com/JuanDAM96/proyecto_videojuego/tree/main";
+    window.location.href = "https://github.com/JuanDAM96/videojuego-combates";
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -179,5 +179,5 @@ function volverAlLobby() {
 }
 
 function volverAlMenuPrincipal() {
-    window.location.href = "/index.html";
+    window.location.href = "/videojuego-combates/index.html";
 }
