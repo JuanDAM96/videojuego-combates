@@ -1,14 +1,14 @@
 function continuarPartida() {
     const personaje = localStorage.getItem('personaje');
     if (personaje) {
-        window.location.href = "pantallas/lobby.html";
+        window.location.href = "src/pantallas/lobby.html";
     } else {
         alert("No hay partida guardada.");
     }
 }
 
 function nuevaPartida() {
-    window.location.href = "pantallas/creador-personaje.html";
+    window.location.href = "src/pantallas/creador-personaje.html";
 }
 
 function eliminarDatos() {
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         } else {
             alert("No hay personaje creado.");
-            window.location.href = "../index.html";
+            window.location.href = "/index.html";
         }
     }
 
@@ -179,5 +179,5 @@ function volverAlLobby() {
 }
 
 function volverAlMenuPrincipal() {
-    window.location.href = "../index.html";
+    window.location.href = "/index.html";
 }
