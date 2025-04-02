@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creador de Personaje</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+</head>
+<body class="general">
+    <h1>Creador de Personaje</h1>
+    <form id="form-personaje">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Introduce el nombre" required>
+        <label for="nivel">Nivel:</label>
+        <input type="number" id="nivel" name="nivel" value="1" readonly>
+        <label for="dinero">Dinero:</label>
+        <input type="number" id="dinero" name="dinero" value="100" readonly>
+        <label for="estadisticas">Estadísticas:</label>
+        <input type="text" id="estadisticas" name="estadisticas" placeholder="Introduce las estadísticas" required>
+        <button type="submit">Crear Personaje</button>
+    </form>
+    <button id="volverAlMenuPrincipal">Volver al Menú Principal</button>
+
+    <script src="../scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "videojuego-combates",
+  "version": "1.0.0",
+  "description": "Un videojuego de combates por turnos.",
+  "main": "src/scripts/main.js",
+  "scripts": {
+    "start": "live-server src",
+    "build": "echo 'No build step required.'"
+  },
+  "author": "Tu Nombre",
+  "license": "MIT",
+  "dependencies": {
+    "live-server": "^1.2.1"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "videojuego",
+    "combates",
+    "javascript"
+  ]
+}
