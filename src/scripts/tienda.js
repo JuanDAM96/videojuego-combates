@@ -23,16 +23,6 @@ class Tienda {
         });
     }
 
-    comprarArma(index) {
-        const arma = this.armasDisponibles[index];
-        if (this.jugador.dinero >= arma.precio) {
-            this.jugador.dinero -= arma.precio;
-            this.jugador.inventario.agregarArma(arma);
-            alert(`Has comprado ${arma.nombre}. Te quedan ${this.jugador.dinero} monedas.`);
-        } else {
-            alert('No tienes suficiente dinero para comprar esta arma.');
-        }
-    }
 }
 
 // Ejemplo de uso
@@ -47,6 +37,43 @@ const jugador = {
 };
 
 const tienda = new Tienda(jugador);
-tienda.agregarArma({ nombre: 'Espada', precio: 50 });
-tienda.agregarArma({ nombre: 'Hacha', precio: 75 });
-tienda.mostrarArmas();
+
+if (window.location.pathname.endsWith('tienda.html')) {
+    const armas = [
+        { nombre: 'Espada', ataque: 10, precio: 100, imagen: '../../multimedia/images/espada.jpg' },
+        { nombre: 'Hacha', ataque: 15, precio: 150, imagen: '../../multimedia/images/hacha.jpg' },
+        { nombre: 'Lanza', ataque: 12, precio: 120, imagen: '../../multimedia/images/lanza.png' },
+        { nombre: 'Espada Rota', ataque: 7, precio: 50, imagen: '../../multimedia/images/espada_rota.jpg' } // Añadimos la Espada Rota a la tienda
+    ];
+    const listaArmas = document.getElementById('lista-armas');
+    armas.forEach(arma => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+            <img src="${arma.imagen}" alt="${arma.nombre}" style="width: 100px; height: 100px;">
+            <p>${arma.nombre} - Ataque: ${arma.ataque} - Precio: ${arma.precio}</p>
+        `;
+        const botonComprar = document.createElement('button');
+        botonComprar.innerText = 'Comprar';
+        botonComprar.onclick = () => comprarArma(arma);
+        div.appendChild(botonComprar);
+        listaArmas.appendChild(div);
+    });
+    function comprarArma(arma) {
+        const personaje = JSON.parse(localStorage.getItem('personaje'));
+        if (personaje.dinero >= arma.precio) {
+            personaje.dinero -= arma.precio;
+            personaje.inventario.push(arma);
+            localStorage.setItem('personaje', JSON.stringify(personaje));
+            alert(`Has comprado ${arma.nombre}`);
+        } else {
+            alert('No tienes suficiente dinero.');
+        }
+    }
+    
+    function equiparArma(arma) {
+        const personaje = JSON.parse(localStorage.getItem('personaje'));
+        personaje.armaEquipada = arma;
+        localStorage.setItem('personaje', JSON.stringify(personaje));
+        alert(`Has equipado ${arma.nombre}`);
+    }
+}

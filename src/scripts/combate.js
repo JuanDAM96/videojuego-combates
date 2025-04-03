@@ -30,10 +30,6 @@ class Combate {
         console.log(`Vida del jugador: ${this.personaje.vida}`);
         console.log(`Vida del enemigo: ${this.enemigo.vida}`);
     }
-    //PROGRAMAR ESTO
-    seleccionarAccion() {
-        return 'atacar';
-    }
 
     ejecutarAccion(accion) {
         switch (accion) {
@@ -51,24 +47,9 @@ class Combate {
         }
     }
 
-    atacar(enemigo) {
-        const dano = this.calcularDanio(this.personaje, enemigo);
-        enemigo.vida -= dano;
-        console.log(`El jugador ataca y causa ${dano} de daño.`);
-    }
-
     calcularDanio(atacante, defensor) {
         const dano = atacante.ataque - defensor.defensa;
         return dano > 0 ? dano : 0; // Asegura que el daño no sea negativo
-    }
-
-    //PROGRAMAR ESTO
-    defender() {
-        console.log('El jugador se defiende.');
-    }
-
-    huir() {
-        console.log('El jugador ha huido del combate.');
     }
 
     accionEnemigo() {
@@ -76,17 +57,49 @@ class Combate {
         this.personaje.vida -= dano;
         console.log(`El enemigo ataca y causa ${dano} de daño.`);
     }
+}
+if (window.location.pathname.endsWith('combate.html')) {
+    const personaje = JSON.parse(localStorage.getItem('personaje'));
+    const enemigo = { nombre: 'Enemigo', nivel: 1, vida: 100, ataque: 6, defensa: 5 };
+    const estadoCombate = document.getElementById('estado-combate');
+    estadoCombate.innerText = `
+        ${personaje.nombre} vs ${enemigo.nombre}
+        Vida: ${personaje.vida} - ${enemigo.vida}
+    `;
 
-    finalizarCombate() {
-        if (this.personaje.vida <= 0) {
-            alert('El jugador ha sido derrotado.');
-        } else if (this.enemigo.vida <= 0) {
-            alert('El enemigo ha sido derrotado. ¡Victoria!');
-            console.log('El jugador ha ganado la batalla.' + this.personaje);
-            debugger;
-            this.personaje.subirDeNivel();
+    window.atacar = function() {
+        enemigo.vida -= personaje.armaEquipada.ataque;
+        if (enemigo.vida <= 0) {
+            alert('Has ganado el combate!');
+            window.location.href = "lobby.html";
+        } else {
+            personaje.vida -= enemigo.ataque;
+            if (personaje.vida <= 0) {
+                alert('Has perdido el combate!');
+                window.location.href = "lobby.html";
+            }
         }
-    }
+        estadoCombate.innerText = `
+            ${personaje.nombre} vs ${enemigo.nombre}
+            Vida: ${personaje.vida} - ${enemigo.vida}
+        `;
+    };
+
+    window.defender = function() {
+        personaje.vida -= (enemigo.ataque - personaje.defensa);
+        if (personaje.vida <= 0) {
+            alert('Has perdido el combate!');
+            window.location.href = "lobby.html";
+        }
+        estadoCombate.innerText = `
+            ${personaje.nombre} vs ${enemigo.nombre}
+            Vida: ${personaje.vida} - ${enemigo.vida}
+        `;
+    };
+
+    window.huir = function() {
+        alert('Has huido del combate!');
+        window.location.href = "lobby.html";
+    };
 }
 // Exportar la clase para su uso en otros módulos
-export default Combate;

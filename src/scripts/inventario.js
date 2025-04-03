@@ -12,15 +12,6 @@ class Inventario {
         return false; // No se pudo agregar el arma, inventario lleno
     }
 
-    eliminarArma(arma) {
-        const index = this.armas.indexOf(arma);
-        if (index > -1) {
-            this.armas.splice(index, 1);
-            return true; // Arma eliminada exitosamente
-        }
-        return false; // El arma no se encontró en el inventario
-    }
-
     equiparArma(arma) {
         if (this.armas.includes(arma)) {
             this.armaEquipada = arma;
@@ -34,11 +25,31 @@ class Inventario {
     }
 }
 
-// Ejemplo de uso
-const inventario = new Inventario(5);
-const arma1 = { nombre: "Espada", ataque: 10, precio: 100 };
-const arma2 = { nombre: "Hacha", ataque: 15, precio: 150 };
+if (window.location.pathname.endsWith('inventario.html')) {
+    const personaje = JSON.parse(localStorage.getItem('personaje'));
+    const inventario = new Inventario(5); // Crea una instancia de Inventario
+    personaje.inventario.forEach(arma => inventario.agregarArma(arma)); // Agrega las armas del personaje al inventario
 
-inventario.agregarArma(arma1);
-inventario.agregarArma(arma2);
-console.log(inventario.mostrarInventario());
+    const listaInventario = document.getElementById('lista-inventario');
+    inventario.mostrarInventario().forEach(arma => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+            <img src="${arma.imagen}" alt="${arma.nombre}" style="width: 100px; height: 100px;">
+            <p>${arma.nombre} - Ataque: ${arma.ataque}</p>
+        `;
+        const botonEquipar = document.createElement('button');
+        botonEquipar.innerText = 'Equipar';
+        botonEquipar.onclick = () => {
+            const exito = inventario.equiparArma(arma);
+            if (exito) {
+                personaje.armaEquipada = arma; // Actualiza el arma equipada del personaje
+                localStorage.setItem('personaje', JSON.stringify(personaje)); // Guarda los cambios en localStorage
+                alert(`Has equipado el arma: ${arma.nombre}`);
+            } else {
+                alert('No se pudo equipar el arma.');
+            }
+        };
+        div.appendChild(botonEquipar);
+        listaInventario.appendChild(div);
+    });
+}
