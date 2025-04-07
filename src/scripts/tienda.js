@@ -39,12 +39,21 @@ const jugador = {
 const tienda = new Tienda(jugador);
 
 if (window.location.pathname.endsWith('tienda.html')) {
+    const personaje = JSON.parse(localStorage.getItem('personaje'));
+
+    // Lista de armas disponibles
     const armas = [
         { nombre: 'Espada', ataque: 10, precio: 100, imagen: '../../multimedia/images/espada.jpg' },
         { nombre: 'Hacha', ataque: 15, precio: 150, imagen: '../../multimedia/images/hacha.jpg' },
         { nombre: 'Lanza', ataque: 12, precio: 120, imagen: '../../multimedia/images/lanza.png' }
     ];
 
+    // Lista de pociones disponibles
+    const pociones = [
+        { nombre: 'Poción de Curación', cura: 40, precio: 50, imagen: '../../multimedia/images/pocion_vida.jpg' }
+    ];
+
+    // Mostrar armas en la tienda
     const listaArmas = document.getElementById('lista-armas');
     armas.forEach(arma => {
         const div = document.createElement('div');
@@ -59,8 +68,23 @@ if (window.location.pathname.endsWith('tienda.html')) {
         listaArmas.appendChild(div);
     });
 
+    // Mostrar pociones en la tienda
+    const listaPociones = document.getElementById('lista-pociones');
+    pociones.forEach(pocion => {
+        const div = document.createElement('div');
+        div.innerHTML = `
+            <img src="${pocion.imagen}" alt="${pocion.nombre}" style="width: 100px; height: 100px;">
+            <p>${pocion.nombre} - Cura: ${pocion.cura} - Precio: ${pocion.precio}</p>
+        `;
+        const botonComprar = document.createElement('button');
+        botonComprar.innerText = 'Comprar';
+        botonComprar.onclick = () => comprarPocion(pocion);
+        div.appendChild(botonComprar);
+        listaPociones.appendChild(div);
+    });
+
+    // Función para comprar armas
     function comprarArma(arma) {
-        const personaje = JSON.parse(localStorage.getItem('personaje'));
         if (personaje.dinero >= arma.precio) {
             personaje.dinero -= arma.precio;
             personaje.inventario.push(arma);
@@ -70,7 +94,20 @@ if (window.location.pathname.endsWith('tienda.html')) {
             alert('No tienes suficiente dinero.');
         }
     }
-    
+
+    // Función para comprar pociones
+    function comprarPocion(pocion) {
+        if (personaje.dinero >= pocion.precio) {
+            personaje.dinero -= pocion.precio;
+            if (!personaje.pociones) personaje.pociones = [];
+            personaje.pociones.push(pocion);
+            localStorage.setItem('personaje', JSON.stringify(personaje));
+            alert(`Has comprado ${pocion.nombre}`);
+        } else {
+            alert('No tienes suficiente dinero.');
+        }
+    }
+
     function volverAlLobby() {
         window.location.href = "lobby.html"; // Redirige al jugador al lobby
     }

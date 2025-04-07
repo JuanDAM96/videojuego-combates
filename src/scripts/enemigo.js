@@ -26,7 +26,7 @@ class Enemigo {
         if (this.vida < 0) {
             this.vida = 0;
         }
-        console.log(`${this.nombre} ha recibido ${dano} de daño. Vida restante: ${this.vida}`);
+        console.log(`Has atacado a ${this.nombre} y ha recibido ${dano} de daño. Vida restante: ${this.vida}`);
     }
 
     estaVivo() {
@@ -38,7 +38,7 @@ class Enemigo {
         return [
             new Enemigo('Criatura Mágica', 1, 80, 15, 5, '../../multimedia/images/enemigo_bosque.jpg'),
             new Enemigo('Guerrero del Desierto', 1, 100, 10, 8, '../../multimedia/images/enemigo_desierto.jpg'),
-            new Enemigo('Jefe Oscuro', 1, 150, 15, 9, '../../multimedia/images/enemigo_castillo.jpg')
+            new Enemigo('Jefe Oscuro', 1, 150, 20, 6, '../../multimedia/images/enemigo_castillo.jpg')
         ];
     }
 }

@@ -67,8 +67,9 @@ class Combate {
     }
 
     calcularDanio(atacante, defensor) {
-        const dano = atacante.ataque - defensor.defensa;
-        return dano > 0 ? dano : 1; // Asegura que siempre haya un daño mínimo de 1
+        const danoBase = atacante.ataque - defensor.defensa;
+        const danoFinal = danoBase > 0 ? danoBase : Math.floor(atacante.ataque * 0.2); // Daño mínimo basado en el 20% del ataque del atacante
+        return danoFinal;
     }
 
     atacar() {
@@ -76,7 +77,6 @@ class Combate {
 
         const dano = this.calcularDanio(this.personaje.estadisticas, this.enemigo);
         this.enemigo.recibirDaño(dano);
-        console.log(`Has atacado al enemigo y causado ${dano} de daño.`);
 
         if (!this.enemigo.estaVivo()) {
             this.ganarCombate();
@@ -107,6 +107,18 @@ class Combate {
     huir() {
         alert('Has huido del combate.');
         window.location.href = "lobby.html";
+    }
+
+    usarPocion() {
+        if (!this.personaje.pociones || this.personaje.pociones.length === 0) {
+            alert('No tienes pociones disponibles.');
+            return;
+        }
+
+        const pocion = this.personaje.pociones.pop();
+        this.personaje.estadisticas.vida = Math.min(this.personaje.estadisticas.vida + pocion.cura, 100);
+        alert(`Has usado una poción. Vida actual: ${this.personaje.estadisticas.vida}`);
+        this.mostrarEstado();
     }
 
     accionEnemigo() {
@@ -166,6 +178,10 @@ window.defender = () => {
 
 window.huir = () => {
     combate.huir();
+};
+
+window.usarPocion = () => {
+    combate.usarPocion();
 };
 
 export default Combate;
