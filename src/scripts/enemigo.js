@@ -1,10 +1,11 @@
 class Enemigo {
-    constructor(nombre, nivel, vida, ataque, defensa) {
+    constructor(nombre, nivel, vida, ataque, defensa, imagen) {
         this.nombre = nombre;
         this.nivel = nivel;
         this.vida = vida;
         this.ataque = ataque;
         this.defensa = defensa;
+        this.imagen = imagen;
     }
 
     atacar(personaje) {
@@ -35,9 +36,9 @@ class Enemigo {
     // Método estático para crear enemigos predefinidos
     static crearEnemigos() {
         return [
-            new Enemigo('Criatura Mágica', 1, 80, 15, 5), // Bosque
-            new Enemigo('Guerrero del Desierto', 1, 100, 10, 8), // Desierto
-            new Enemigo('Jefe Oscuro', 1, 150, 20, 12) // Castillo oscuro
+            new Enemigo('Criatura Mágica', 1, 80, 15, 5, '../../multimedia/images/enemigo_bosque.jpg'),
+            new Enemigo('Guerrero del Desierto', 1, 100, 10, 8, '../../multimedia/images/enemigo_desierto.jpg'),
+            new Enemigo('Jefe Oscuro', 1, 150, 15, 9, '../../multimedia/images/enemigo_castillo.jpg')
         ];
     }
 }

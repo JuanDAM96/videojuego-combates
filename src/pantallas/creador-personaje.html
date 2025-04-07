@@ -8,35 +8,47 @@
     <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
 </head>
 <body class="general">
-    <h1>Creador de Personaje</h1>
-    <form id="form-personaje">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Introduce el nombre" required>
+    <div class="container">
+        <h1>Creador de Personaje</h1>
+        <div id="creador-personaje">
+            <!-- Imagen del personaje -->
+            <div id="imagen-personaje-container">
+                <img id="imagen-personaje" src="../../multimedia/images/personaje.jpg" alt="Personaje">
+            </div>
 
-        <h2>Distribuye tus puntos</h2>
-        <p>Puntos restantes: <span id="puntos-restantes">20</span></p>
+            <!-- Formulario para crear el personaje -->
+            <form id="form-personaje">
+                <label for="nombre">Nombre del personaje:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Introduce el nombre" required>
 
-        <div>
-            <label for="vida">Vida:</label>
-            <input type="number" id="vida" name="vida" value="100" readonly>
+                <h2>Distribuye tus puntos</h2>
+                <p>Puntos restantes: <span id="puntos-restantes">20</span></p>
+
+                <div class="estadisticas">
+                    <div>
+                        <label for="vida">Vida:</label>
+                        <input type="number" id="vida" name="vida" value="100" readonly>
+                    </div>
+
+                    <div>
+                        <label for="ataque">Ataque:</label>
+                        <input type="number" id="ataque" name="ataque" value="0" min="0" readonly>
+                        <button type="button" onclick="asignarPuntos('ataque', 1)">+</button>
+                        <button type="button" onclick="asignarPuntos('ataque', -1)">-</button>
+                    </div>
+
+                    <div>
+                        <label for="defensa">Defensa:</label>
+                        <input type="number" id="defensa" name="defensa" value="0" min="0" readonly>
+                        <button type="button" onclick="asignarPuntos('defensa', 1)">+</button>
+                        <button type="button" onclick="asignarPuntos('defensa', -1)">-</button>
+                    </div>
+                </div>
+
+                <button type="submit">Crear Personaje</button>
+            </form>
         </div>
-
-        <div>
-            <label for="ataque">Ataque:</label>
-            <input type="number" id="ataque" name="ataque" value="0" min="0" readonly>
-            <button type="button" onclick="asignarPuntos('ataque', 1)">+</button>
-            <button type="button" onclick="asignarPuntos('ataque', -1)">-</button>
-        </div>
-
-        <div>
-            <label for="defensa">Defensa:</label>
-            <input type="number" id="defensa" name="defensa" value="0" min="0" readonly>
-            <button type="button" onclick="asignarPuntos('defensa', 1)">+</button>
-            <button type="button" onclick="asignarPuntos('defensa', -1)">-</button>
-        </div>
-
-        <button type="submit">Crear Personaje</button>
-    </form>
+    </div>
     <button onclick="volverAlMenuPrincipal()">Volver al Menú Principal</button>
 
     <script src="../scripts/creador-personaje.js"></script>

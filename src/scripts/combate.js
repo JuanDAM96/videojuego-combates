@@ -37,6 +37,22 @@ class Combate {
         body.style.backgroundImage = `url(${this.escenario.imagen})`;
         body.style.backgroundSize = 'cover';
 
+        // Mostrar imágenes del personaje y del enemigo
+        const imagenPersonaje = document.getElementById('imagen-personaje');
+        const imagenEnemigo = document.getElementById('imagen-enemigo');
+
+        if (imagenPersonaje) {
+            imagenPersonaje.src = this.personaje.imagen || '../../multimedia/images/personaje.jpg';
+        } else {
+            console.error("Elemento 'imagen-personaje' no encontrado.");
+        }
+
+        if (imagenEnemigo) {
+            imagenEnemigo.src = this.enemigo.imagen;
+        } else {
+            console.error("Elemento 'imagen-enemigo' no encontrado.");
+        }
+
         // Mostrar estado inicial
         this.mostrarEstado();
     }
