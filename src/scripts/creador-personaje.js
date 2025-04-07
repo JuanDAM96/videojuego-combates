@@ -27,13 +27,21 @@ document.getElementById('form-personaje').addEventListener('submit', function (e
         return;
     }
 
+    // Crear la espada rota
+    const espadaRota = {
+        nombre: "Espada Rota",
+        ataque: 7,
+        imagen: "../../multimedia/images/espada_rota.jpg"
+    };
+
+    // Crear el personaje con la espada rota en el inventario
     const personaje = {
         nombre,
         estadisticas: { vida, ataque, defensa },
         nivel: 1,
         dinero: 100,
-        inventario: [],
-        armaEquipada: null,
+        inventario: [espadaRota], // La Espada Rota está en el inventario
+        armaEquipada: espadaRota // La Espada Rota está equipada por defecto
     };
 
     // Guarda el personaje en localStorage
@@ -53,5 +61,5 @@ document.getElementById('form-personaje').addEventListener('submit', function (e
 });
 
 function volverAlMenuPrincipal() {
-    window.location.href = "../index.html"; // Redirige al menú principal
+    window.location.href = "../../index.html"; // Redirige al menú principal
 }

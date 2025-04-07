@@ -31,6 +31,15 @@ class Enemigo {
     estaVivo() {
         return this.vida > 0;
     }
+
+    // Método estático para crear enemigos predefinidos
+    static crearEnemigos() {
+        return [
+            new Enemigo('Criatura Mágica', 1, 80, 15, 5), // Bosque
+            new Enemigo('Guerrero del Desierto', 1, 100, 10, 8), // Desierto
+            new Enemigo('Jefe Oscuro', 1, 150, 20, 12) // Castillo oscuro
+        ];
+    }
 }
 
 export default Enemigo;

@@ -12,8 +12,10 @@ function nuevaPartida() {
 }
 
 function eliminarDatos() {
-  localStorage.removeItem("personaje");
-  alert("Datos eliminados.");
+  localStorage.removeItem("personaje"); // Elimina los datos del personaje
+  localStorage.removeItem("progreso"); // Elimina el progreso del juego
+  alert("Datos eliminados. El progreso ha sido reiniciado.");
+  window.location.reload(); // Recarga la página para reflejar el estado inicial
 }
 
 function repositorio() {

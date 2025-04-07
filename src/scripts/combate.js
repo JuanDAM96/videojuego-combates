@@ -1,19 +1,50 @@
 import Enemigo from './enemigo.js';
 
 class Combate {
-    constructor(personaje, enemigo) {
+    constructor(personaje) {
         this.personaje = personaje;
-        this.enemigo = enemigo;
+        this.enemigos = Enemigo.crearEnemigos(); // Cargar enemigos desde la clase Enemigo
+        this.escenarios = [
+            { nombre: 'Bosque Encantado', imagen: '../../multimedia/images/bosque.jpg', tipo: 'bosque' },
+            { nombre: 'Desierto Árido', imagen: '../../multimedia/images/desierto.jpg', tipo: 'desierto' },
+            { nombre: 'Castillo Oscuro', imagen: '../../multimedia/images/castillo.jpg', tipo: 'castillo' }
+        ];
         this.turno = 'jugador';
+
+        // Cargar progreso desde localStorage o inicializarlo
+        this.progreso = JSON.parse(localStorage.getItem('progreso')) || { bosque: false, desierto: false, castillo: false };
     }
 
     iniciarCombate() {
+        // Determinar el escenario según el progreso
+        if (!this.progreso.bosque) {
+            this.escenario = this.escenarios.find(e => e.tipo === 'bosque');
+            this.enemigo = this.enemigos[0]; // Criatura Mágica
+        } else if (!this.progreso.desierto) {
+            this.escenario = this.escenarios.find(e => e.tipo === 'desierto');
+            this.enemigo = this.enemigos[1]; // Guerrero del Desierto
+        } else if (!this.progreso.castillo) {
+            this.escenario = this.escenarios.find(e => e.tipo === 'castillo');
+            this.enemigo = this.enemigos[2]; // Jefe Oscuro
+        } else {
+            alert('¡Has completado todos los escenarios!');
+            window.location.href = "lobby.html";
+            return;
+        }
+
+        // Mostrar el escenario
+        const body = document.querySelector('body');
+        body.style.backgroundImage = `url(${this.escenario.imagen})`;
+        body.style.backgroundSize = 'cover';
+
+        // Mostrar estado inicial
         this.mostrarEstado();
     }
 
     mostrarEstado() {
         const estadoCombate = document.getElementById('estado-combate');
         estadoCombate.innerText = `
+            Escenario: ${this.escenario.nombre}
             ${this.personaje.nombre} vs ${this.enemigo.nombre}
             Vida: ${this.personaje.estadisticas.vida} - ${this.enemigo.vida}
         `;
@@ -32,8 +63,7 @@ class Combate {
         console.log(`Has atacado al enemigo y causado ${dano} de daño.`);
 
         if (!this.enemigo.estaVivo()) {
-            alert('¡Has ganado el combate!');
-            window.location.href = "lobby.html";
+            this.ganarCombate();
             return;
         }
 
@@ -77,12 +107,33 @@ class Combate {
         this.turno = 'jugador';
         this.mostrarEstado();
     }
+
+    ganarCombate() {
+        // Marcar el escenario actual como completado
+        if (this.escenario.tipo === 'bosque') {
+            this.progreso.bosque = true;
+        } else if (this.escenario.tipo === 'desierto') {
+            this.progreso.desierto = true;
+        } else if (this.escenario.tipo === 'castillo') {
+            this.progreso.castillo = true;
+        }
+
+        // Incrementar el oro del jugador
+        const personaje = JSON.parse(localStorage.getItem('personaje'));
+        personaje.dinero += 100; // Añadir 100 de oro
+        localStorage.setItem('personaje', JSON.stringify(personaje)); // Guardar el nuevo estado del jugador
+
+        // Guardar el progreso en localStorage
+        localStorage.setItem('progreso', JSON.stringify(this.progreso));
+
+        alert(`¡Has ganado el combate en el ${this.escenario.nombre} y obtuviste 100 de oro!`);
+        window.location.href = "lobby.html";
+    }
 }
 
 // Inicializa el combate
 const personaje = JSON.parse(localStorage.getItem('personaje'));
-const enemigo = new Enemigo('Enemigo', 1, 100, 12, 8);
-const combate = new Combate(personaje, enemigo);
+const combate = new Combate(personaje);
 
 combate.iniciarCombate();
 
@@ -100,3 +151,5 @@ window.defender = () => {
 window.huir = () => {
     combate.huir();
 };
+
+export default Combate;
