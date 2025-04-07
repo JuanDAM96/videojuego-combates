@@ -52,4 +52,7 @@ if (window.location.pathname.endsWith('inventario.html')) {
         div.appendChild(botonEquipar);
         listaInventario.appendChild(div);
     });
+    function volverAlLobby() {
+        window.location.href = "lobby.html"; // Redirige al jugador al lobby
+    }
 }

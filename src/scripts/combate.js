@@ -1,105 +1,102 @@
+import Enemigo from './enemigo.js';
+
 class Combate {
     constructor(personaje, enemigo) {
         this.personaje = personaje;
         this.enemigo = enemigo;
-        this.turno = 'jugador'; 
+        this.turno = 'jugador';
     }
 
     iniciarCombate() {
-        while (this.personaje.vida > 0 && this.enemigo.vida > 0) {
-            this.realizarTurno();
-        }
-        console.log('Combate finalizado.');
-        this.finalizarCombate();
-    }
-
-    realizarTurno() {
-        if (this.turno === 'jugador') {
-            this.mostrarEstado();
-            const accion = this.seleccionarAccion(); 
-            this.ejecutarAccion(accion);
-            this.turno = 'enemigo';
-        } else {
-            this.accionEnemigo();
-            this.turno = 'jugador';
-        }
+        this.mostrarEstado();
     }
 
     mostrarEstado() {
-        console.log(`Estado del combate:`);
-        console.log(`Vida del jugador: ${this.personaje.vida}`);
-        console.log(`Vida del enemigo: ${this.enemigo.vida}`);
-    }
-
-    ejecutarAccion(accion) {
-        switch (accion) {
-            case 'atacar':
-                this.atacar(this.enemigo);
-                break;
-            case 'defender':
-                this.defender();
-                break;
-            case 'huir':
-                this.huir();
-                break;
-            default:
-                console.log('Acción no válida');
-        }
+        const estadoCombate = document.getElementById('estado-combate');
+        estadoCombate.innerText = `
+            ${this.personaje.nombre} vs ${this.enemigo.nombre}
+            Vida: ${this.personaje.estadisticas.vida} - ${this.enemigo.vida}
+        `;
     }
 
     calcularDanio(atacante, defensor) {
         const dano = atacante.ataque - defensor.defensa;
-        return dano > 0 ? dano : 0; // Asegura que el daño no sea negativo
+        return dano > 0 ? dano : 1; // Asegura que siempre haya un daño mínimo de 1
+    }
+
+    atacar() {
+        if (this.turno !== 'jugador') return;
+
+        const dano = this.calcularDanio(this.personaje.estadisticas, this.enemigo);
+        this.enemigo.recibirDaño(dano);
+        console.log(`Has atacado al enemigo y causado ${dano} de daño.`);
+
+        if (!this.enemigo.estaVivo()) {
+            alert('¡Has ganado el combate!');
+            window.location.href = "lobby.html";
+            return;
+        }
+
+        this.turno = 'enemigo';
+        this.accionEnemigo();
+    }
+
+    defender() {
+        if (this.turno !== 'jugador') return;
+
+        const defensaTemporal = 3; // Incremento temporal de defensa
+        this.personaje.estadisticas.defensa += defensaTemporal;
+        console.log('Te has defendido, tu defensa ha aumentado temporalmente.');
+
+        this.turno = 'enemigo';
+        this.accionEnemigo();
+
+        // Elimina el efecto de la defensa temporal después del ataque del enemigo
+        setTimeout(() => {
+            this.personaje.estadisticas.defensa -= defensaTemporal;
+            console.log('La defensa temporal ha terminado.');
+        }, 1000);
+    }
+
+    huir() {
+        alert('Has huido del combate.');
+        window.location.href = "lobby.html";
     }
 
     accionEnemigo() {
-        const dano = this.calcularDanio(this.enemigo, this.personaje);
-        this.personaje.vida -= dano;
-        console.log(`El enemigo ataca y causa ${dano} de daño.`);
+        if (this.turno !== 'enemigo') return;
+
+        this.enemigo.atacar(this.personaje);
+
+        if (this.personaje.estadisticas.vida <= 0) {
+            alert('¡Has perdido el combate!');
+            window.location.href = "lobby.html";
+            return;
+        }
+
+        this.turno = 'jugador';
+        this.mostrarEstado();
     }
 }
-if (window.location.pathname.endsWith('combate.html')) {
-    const personaje = JSON.parse(localStorage.getItem('personaje'));
-    const enemigo = { nombre: 'Enemigo', nivel: 1, vida: 100, ataque: 6, defensa: 5 };
-    const estadoCombate = document.getElementById('estado-combate');
-    estadoCombate.innerText = `
-        ${personaje.nombre} vs ${enemigo.nombre}
-        Vida: ${personaje.vida} - ${enemigo.vida}
-    `;
 
-    window.atacar = function() {
-        enemigo.vida -= personaje.armaEquipada.ataque;
-        if (enemigo.vida <= 0) {
-            alert('Has ganado el combate!');
-            window.location.href = "lobby.html";
-        } else {
-            personaje.vida -= enemigo.ataque;
-            if (personaje.vida <= 0) {
-                alert('Has perdido el combate!');
-                window.location.href = "lobby.html";
-            }
-        }
-        estadoCombate.innerText = `
-            ${personaje.nombre} vs ${enemigo.nombre}
-            Vida: ${personaje.vida} - ${enemigo.vida}
-        `;
-    };
+// Inicializa el combate
+const personaje = JSON.parse(localStorage.getItem('personaje'));
+const enemigo = new Enemigo('Enemigo', 1, 100, 12, 8);
+const combate = new Combate(personaje, enemigo);
 
-    window.defender = function() {
-        personaje.vida -= (enemigo.ataque - personaje.defensa);
-        if (personaje.vida <= 0) {
-            alert('Has perdido el combate!');
-            window.location.href = "lobby.html";
-        }
-        estadoCombate.innerText = `
-            ${personaje.nombre} vs ${enemigo.nombre}
-            Vida: ${personaje.vida} - ${enemigo.vida}
-        `;
-    };
+combate.iniciarCombate();
 
-    window.huir = function() {
-        alert('Has huido del combate!');
-        window.location.href = "lobby.html";
-    };
-}
-// Exportar la clase para su uso en otros módulos
+// Asigna las funciones al objeto `window` para que sean accesibles globalmente
+window.atacar = () => {
+    combate.atacar();
+    combate.mostrarEstado();
+};
+
+window.defender = () => {
+    combate.defender();
+    combate.mostrarEstado();
+};
+
+window.huir = () => {
+    combate.huir();
+};

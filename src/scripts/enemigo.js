@@ -8,13 +8,16 @@ class Enemigo {
     }
 
     atacar(personaje) {
-        const daño = this.calcularDaño();
-        personaje.recibirDaño(daño);
-        console.log(`${this.nombre} ataca a ${personaje.nombre} y causa ${daño} de daño.`);
+        const dano = this.calcularDanio(personaje.estadisticas.defensa);
+        personaje.estadisticas.vida -= dano;
+        console.log(`${this.nombre} ataca a ${personaje.nombre} y causa ${dano} de daño.`);
     }
 
-    calcularDaño() {
-        return this.ataque - (this.defensa / 2);
+    calcularDanio(defensaObjetivo) {
+        // Genera un daño aleatorio entre el 100% y el 150% del ataque base
+        const ataqueAleatorio = this.ataque * (0.8 + Math.random() * 0.3);
+        const dano = Math.floor(ataqueAleatorio - defensaObjetivo);
+        return dano > 0 ? dano : 1; // Asegura que siempre haya un daño mínimo de 1
     }
 
     recibirDaño(dano) {
@@ -22,9 +25,12 @@ class Enemigo {
         if (this.vida < 0) {
             this.vida = 0;
         }
+        console.log(`${this.nombre} ha recibido ${dano} de daño. Vida restante: ${this.vida}`);
     }
 
     estaVivo() {
         return this.vida > 0;
     }
 }
+
+export default Enemigo;

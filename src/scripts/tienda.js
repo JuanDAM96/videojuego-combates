@@ -76,4 +76,8 @@ if (window.location.pathname.endsWith('tienda.html')) {
         localStorage.setItem('personaje', JSON.stringify(personaje));
         alert(`Has equipado ${arma.nombre}`);
     }
+    
+    function volverAlLobby() {
+        window.location.href = "lobby.html"; // Redirige al jugador al lobby
+    }
 }

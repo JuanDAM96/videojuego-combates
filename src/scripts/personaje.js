@@ -1,14 +1,15 @@
 class Personaje {
-    constructor(nombre, nivel = 1, dinero = 0) {
+    constructor(nombre, puntosEstadisticas = { vida: 100, ataque: 10, defensa: 5 }, nivel = 1, dinero = 0) {
         this.nombre = nombre;
         this.nivel = nivel;
         this.dinero = dinero;
         this.inventario = [];
         this.estadisticas = {
-            vida: 100,
-            ataque: 10,
-            defensa: 5,
+            vida: puntosEstadisticas.vida,
+            ataque: puntosEstadisticas.ataque,
+            defensa: puntosEstadisticas.defensa,
         };
+        this.armaEquipada = espadaRota;
     }
 
     equiparArma(arma) {
@@ -28,19 +29,25 @@ class Personaje {
     }
 
     subirDeNivel() {
-        debugger;
         console.log(`${this.nombre} ha subido de nivel.`);
         this.nivel++;
         this.estadisticas.vida += 10;
         this.estadisticas.ataque += 2;
-        this.estadisticas.defensa += 1
+        this.estadisticas.defensa += 1;
     }
 
     agregarAlInventario(arma) {
-        if (this.inventario.length < 10) { // Limite de 10 objetos en el inventario
+        if (this.inventario.length < 10) { // Límite de 10 objetos en el inventario
             this.inventario.push(arma);
         } else {
             alert("El inventario está lleno.");
         }
+    }
+
+    mostrarEstadisticas() {
+        console.log(`Estadísticas de ${this.nombre}:`);
+        console.log(`Vida: ${this.estadisticas.vida}`);
+        console.log(`Ataque: ${this.estadisticas.ataque}`);
+        console.log(`Defensa: ${this.estadisticas.defensa}`);
     }
 }

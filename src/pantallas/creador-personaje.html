@@ -11,17 +11,34 @@
     <h1>Creador de Personaje</h1>
     <form id="form-personaje">
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Introduce el nombre" req placeholder="Introduce el nombre"uired>
-        <label for="nivel">Nivel:</label>
-        <input type="number" id="nivel" name="nivel" value="1" readonly>
-        <label for="dinero">Dinero:</label>
-        <input type="number" id="dinero" name="dinero" value="100" readonly>
-        <label for="estadisticas">Estadísticas:</label>
-        <input type="text" id="estadisticas" name="estadisticas" placeholder="Introduce las estadísticas" required>
+        <input type="text" id="nombre" name="nombre" placeholder="Introduce el nombre" required>
+
+        <h2>Distribuye tus puntos</h2>
+        <p>Puntos restantes: <span id="puntos-restantes">20</span></p>
+
+        <div>
+            <label for="vida">Vida:</label>
+            <input type="number" id="vida" name="vida" value="100" readonly>
+        </div>
+
+        <div>
+            <label for="ataque">Ataque:</label>
+            <input type="number" id="ataque" name="ataque" value="0" min="0" readonly>
+            <button type="button" onclick="asignarPuntos('ataque', 1)">+</button>
+            <button type="button" onclick="asignarPuntos('ataque', -1)">-</button>
+        </div>
+
+        <div>
+            <label for="defensa">Defensa:</label>
+            <input type="number" id="defensa" name="defensa" value="0" min="0" readonly>
+            <button type="button" onclick="asignarPuntos('defensa', 1)">+</button>
+            <button type="button" onclick="asignarPuntos('defensa', -1)">-</button>
+        </div>
+
         <button type="submit">Crear Personaje</button>
     </form>
     <button onclick="volverAlMenuPrincipal()">Volver al Menú Principal</button>
 
-    <script src="../scripts/main.js"></script>
+    <script src="../scripts/creador-personaje.js"></script>
 </body>
 </html>
