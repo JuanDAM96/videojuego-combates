@@ -55,15 +55,18 @@ h1, h2 {
 
 /* Título de la página */
 .titulo-pagina {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
+    position: relative; /* Cambiado de absolute a relative */
+    top: 0; /* Elimina el desplazamiento vertical */
+    left: 0; /* Elimina el desplazamiento horizontal */
+    transform: none; /* Elimina la transformación */
+    margin: 20px auto; /* Centra el título automáticamente */
     font-size: 2em; /* Ajusta el tamaño del texto */
     color: #ffd700;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
-    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    white-space: normal; /* Permite que el texto se divida en varias líneas si es necesario */
+    text-align: center; /* Asegura que el texto esté centrado */
+    max-width: 90%; /* Limita el ancho del texto para evitar desbordes */
+    word-wrap: break-word; /* Ajusta palabras largas */
 }
 
 /* Botones globales */
