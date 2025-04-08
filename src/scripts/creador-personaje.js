@@ -50,6 +50,7 @@ document.getElementById('form-personaje').addEventListener('submit', function (e
         estadisticas: { vida, ataque, defensa },
         nivel: 1,
         dinero: 100,
+        pociones: [], // Inicializar con un array vacío
         inventario: [espadaRota], // La Espada Rota está en el inventario
         armaEquipada: espadaRota, // La Espada Rota está equipada por defecto
         imagen // Imagen seleccionada

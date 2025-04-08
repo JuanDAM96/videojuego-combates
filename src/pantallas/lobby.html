@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby</title>
     <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/lobby.css">
     <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
 </head>
 <body class="general">
@@ -14,8 +15,19 @@
         <button onclick="gestionarInventario()">Gestionar inventario 🎒</button>
         <button onclick="entrarEnCombate()">Entrar en combate</button>
         <button onclick="volverAlMenuPrincipal()">Volver al Menú Principal</button>
-        <div id="estado-personaje"></div>
+        <div id="estado-personaje">
+            <img id="imagen-personaje-lobby" src="../../multimedia/images/personaje.jpg" alt="Personaje">
+            <h2 id="nombre-personaje">Nombre del Personaje</h2>
+            <p id="nivel-personaje">Nivel: 1</p>
+            <p id="dinero-personaje">Dinero: 0 monedas</p>
+            <div id="estadisticas-personaje">
+                <p><strong>Vida:</strong> <span id="vida-personaje">100</span></p>
+                <p><strong>Ataque:</strong> <span id="ataque-personaje">10</span></p>
+                <p><strong>Defensa:</strong> <span id="defensa-personaje">10</span></p>
+                <p><strong>Pociones:</strong> <span id="pociones-personaje">0</span></p>
+            </div>
+        </div>
     </div>
-    <script src="../scripts/main.js"></script>
+    <script src="../scripts/lobby.js"></script>
 </body>
 </html>

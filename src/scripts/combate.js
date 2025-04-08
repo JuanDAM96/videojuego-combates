@@ -59,11 +59,43 @@ class Combate {
 
     mostrarEstado() {
         const estadoCombate = document.getElementById('estado-combate');
-        estadoCombate.innerText = `
-            Escenario: ${this.escenario.nombre}
-            ${this.personaje.nombre} vs ${this.enemigo.nombre}
-            Vida: ${this.personaje.estadisticas.vida} - ${this.enemigo.vida}
-        `;
+
+        // Actualizar el nombre del escenario
+        const escenarioNombre = document.getElementById('escenario-nombre');
+        if (!escenarioNombre) {
+            const escenarioElement = document.createElement('p');
+            escenarioElement.id = 'escenario-nombre';
+            estadoCombate.appendChild(escenarioElement);
+        }
+        document.getElementById('escenario-nombre').innerText = `Escenario: ${this.escenario.nombre}`;
+
+        // Actualizar las estadísticas del personaje
+        const personajeStats = document.getElementById('personaje-stats');
+        if (!personajeStats) {
+            const personajeElement = document.createElement('p');
+            personajeElement.id = 'personaje-stats';
+            estadoCombate.appendChild(personajeElement);
+        }
+        document.getElementById('personaje-stats').innerText = `${this.personaje.nombre} - Vida: ${this.personaje.estadisticas.vida}`;
+
+        // Actualizar las estadísticas del enemigo
+        const enemigoStats = document.getElementById('enemigo-stats');
+        if (!enemigoStats) {
+            const enemigoElement = document.createElement('p');
+            enemigoElement.id = 'enemigo-stats';
+            estadoCombate.appendChild(enemigoElement);
+        }
+        document.getElementById('enemigo-stats').innerText = `${this.enemigo.nombre} - Vida: ${this.enemigo.vida}`;
+
+        // Actualizar la cantidad de pociones
+        const pocionesStats = document.getElementById('pociones-stats');
+        if (!pocionesStats) {
+            const pocionesElement = document.createElement('p');
+            pocionesElement.id = 'pociones-stats';
+            estadoCombate.appendChild(pocionesElement);
+        }
+        const cantidadPociones = this.personaje.pociones ? this.personaje.pociones.length : 0;
+        document.getElementById('pociones-stats').innerText = `Pociones: ${cantidadPociones}`;
     }
 
     calcularDanio(atacante, defensor) {
@@ -149,13 +181,27 @@ class Combate {
         // Incrementar el oro del jugador
         const personaje = JSON.parse(localStorage.getItem('personaje'));
         personaje.dinero += 100; // Añadir 100 de oro
-        localStorage.setItem('personaje', JSON.stringify(personaje)); // Guardar el nuevo estado del jugador
+
+        // Subir de nivel al personaje
+        personaje.nivel++;
+        personaje.estadisticas.vida += 10; // Incrementar vida al subir de nivel
+        personaje.estadisticas.ataque += 2; // Incrementar ataque al subir de nivel
+        personaje.estadisticas.defensa += 1; // Incrementar defensa al subir de nivel
+
+        // Guardar el nuevo estado del personaje
+        localStorage.setItem('personaje', JSON.stringify(personaje));
 
         // Guardar el progreso en localStorage
         localStorage.setItem('progreso', JSON.stringify(this.progreso));
 
-        alert(`¡Has ganado el combate en el ${this.escenario.nombre} y obtuviste 100 de oro!`);
-        window.location.href = "lobby.html";
+        // Verificar si se han completado todos los escenarios
+        if (this.progreso.bosque && this.progreso.desierto && this.progreso.castillo) {
+            alert('¡Has completado todos los escenarios! Felicidades, has ganado el juego.');
+            window.location.href = "victoria.html"; // Redirigir a la pantalla de victoria
+        } else {
+            alert(`¡Has ganado el combate en el ${this.escenario.nombre}, subiste al nivel ${personaje.nivel} y obtuviste 100 de oro!`);
+            window.location.href = "lobby.html"; // Redirigir al lobby
+        }
     }
 }
 

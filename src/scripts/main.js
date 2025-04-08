@@ -48,28 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "lobby.html";
     });
   }
-
-  if (window.location.pathname.endsWith("lobby.html")) {
-    const personaje = JSON.parse(localStorage.getItem("personaje"));
-    if (personaje) {
-      const estadisticasTexto = `
-            Vida: ${personaje.estadisticas.vida}
-            Ataque: ${personaje.estadisticas.ataque}
-            Defensa: ${personaje.estadisticas.defensa}
-        `;
-
-      document.getElementById("estado-personaje").innerText = `
-            Nombre: ${personaje.nombre}
-            Nivel: ${personaje.nivel}
-            Dinero: ${personaje.dinero}
-            Estadísticas:
-            ${estadisticasTexto}
-        `;
-    } else {
-      alert("No hay personaje creado.");
-      window.location.href = "/index.html";
-    }
-  }
 });
 
 function irATienda() {
