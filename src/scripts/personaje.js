@@ -1,15 +1,17 @@
 class Personaje {
-    constructor(nombre, puntosEstadisticas = { vida: 100, ataque: 10, defensa: 5 }, nivel = 1, dinero = 0) {
+    constructor(nombre, vida, ataque, defensa, nivel = 1, dinero = 100, imagen) {
         this.nombre = nombre;
+        this.estadisticas = {
+            vida,
+            ataque,
+            defensa
+        };
         this.nivel = nivel;
         this.dinero = dinero;
+        this.pociones = [];
         this.inventario = [];
-        this.estadisticas = {
-            vida: puntosEstadisticas.vida,
-            ataque: puntosEstadisticas.ataque,
-            defensa: puntosEstadisticas.defensa,
-        };
-        this.armaEquipada = espadaRota;
+        this.armaEquipada = null;
+        this.imagen = imagen;
     }
 
     equiparArma(arma) {
@@ -51,3 +53,5 @@ class Personaje {
         console.log(`Defensa: ${this.estadisticas.defensa}`);
     }
 }
+
+export default Personaje;

@@ -1,39 +1,38 @@
-let puntosRestantes = 20;
+let claseSeleccionada = null;
 
-function asignarPuntos(atributo, cantidad) {
-    const input = document.getElementById(atributo);
-    const valorActual = parseInt(input.value, 10);
+function seleccionarClase(clase) {
+    const clases = {
+        guerrero: {
+            vida: 120,
+            ataque: 12,
+            defensa: 14,
+            imagen: "../../multimedia/images/guerrero.jpg"
+        },
+        mago: {
+            vida: 80,
+            ataque: 20,
+            defensa: 5,
+            imagen: "../../multimedia/images/mago.jpg"
+        },
+        arquero: {
+            vida: 100,
+            ataque: 15,
+            defensa: 10,
+            imagen: "../../multimedia/images/arquero.jpg"
+        }
+    };
 
-    // Verifica que no se modifiquen los puntos de vida
-    if (atributo === 'vida') {
-        console.warn('No puedes modificar los puntos de vida.');
-        return;
-    }
-
-    // Verifica que haya puntos restantes para asignar o quitar
-    if (cantidad > 0 && puntosRestantes > 0) {
-        input.value = valorActual + cantidad;
-        puntosRestantes -= cantidad;
-    } else if (cantidad < 0 && valorActual > 0) {
-        input.value = valorActual + cantidad;
-        puntosRestantes -= cantidad;
-    }
-
-    // Actualiza los puntos restantes en la interfaz
-    document.getElementById('puntos-restantes').innerText = puntosRestantes;
+    claseSeleccionada = clases[clase];
+    alert(`Has seleccionado la clase: ${clase.charAt(0).toUpperCase() + clase.slice(1)}`);
 }
 
 document.getElementById('form-personaje').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const nombre = document.getElementById('nombre').value;
-    const vida = 100; // Vida fija
-    const ataque = parseInt(document.getElementById('ataque').value, 10);
-    const defensa = parseInt(document.getElementById('defensa').value, 10);
-    const imagen = document.getElementById('imagen-personaje').src;
 
-    if (puntosRestantes > 0) {
-        alert("Debes asignar todos los puntos antes de continuar.");
+    if (!claseSeleccionada) {
+        alert("Debes seleccionar una clase antes de continuar.");
         return;
     }
 
@@ -44,16 +43,20 @@ document.getElementById('form-personaje').addEventListener('submit', function (e
         imagen: "../../multimedia/images/espada_rota.jpg"
     };
 
-    // Crear el personaje con la espada rota en el inventario
+    // Crear el personaje con la clase seleccionada
     const personaje = {
         nombre,
-        estadisticas: { vida, ataque, defensa },
+        estadisticas: {
+            vida: claseSeleccionada.vida,
+            ataque: claseSeleccionada.ataque,
+            defensa: claseSeleccionada.defensa
+        },
         nivel: 1,
         dinero: 100,
-        pociones: [], // Inicializar con un array vacío
-        inventario: [espadaRota], // La Espada Rota está en el inventario
-        armaEquipada: espadaRota, // La Espada Rota está equipada por defecto
-        imagen // Imagen seleccionada
+        pociones: [],
+        inventario: [espadaRota],
+        armaEquipada: espadaRota,
+        imagen: claseSeleccionada.imagen // Guardar la imagen de la clase seleccionada
     };
 
     // Guarda el personaje en localStorage

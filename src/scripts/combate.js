@@ -42,7 +42,7 @@ class Combate {
         const imagenEnemigo = document.getElementById('imagen-enemigo');
 
         if (imagenPersonaje) {
-            imagenPersonaje.src = this.personaje.imagen || '../../multimedia/images/personaje.jpg';
+            imagenPersonaje.src = this.personaje.imagen; // Usar la imagen del personaje desde localStorage
         } else {
             console.error("Elemento 'imagen-personaje' no encontrado.");
         }

@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (personaje) {
         // Actualizar la imagen del personaje
-        document.getElementById("imagen-personaje-lobby").src = personaje.imagen || "../../multimedia/images/personaje.jpg";
+        document.getElementById("imagen-personaje-lobby").src = personaje.imagen;
 
         // Actualizar los datos del personaje
         document.getElementById("nombre-personaje").innerText = personaje.nombre;

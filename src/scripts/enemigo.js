@@ -36,9 +36,9 @@ class Enemigo {
     // Método estático para crear enemigos predefinidos
     static crearEnemigos() {
         return [
-            new Enemigo('Criatura Mágica', 1, 80, 17, 5, '../../multimedia/images/enemigo_bosque.jpg'),
-            new Enemigo('Guerrero del Desierto', 2, 100, 14, 9, '../../multimedia/images/enemigo_desierto.jpg'),
-            new Enemigo('Jefe Oscuro', 3, 150, 20, 10, '../../multimedia/images/enemigo_castillo.jpg')
+            new Enemigo('Criatura Mágica', 2, 80, 20, 7, '../../multimedia/images/enemigo_bosque.jpg'),
+            new Enemigo('Guerrero del Desierto', 3, 100, 19, 9, '../../multimedia/images/enemigo_desierto.jpg'),
+            new Enemigo('Jefe Oscuro', 4, 150, 23, 10, '../../multimedia/images/enemigo_castillo.jpg')
         ];
     }
 }

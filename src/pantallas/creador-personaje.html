@@ -12,46 +12,40 @@
     <div class="container">
         <h1>Creador de Personaje</h1>
         <div id="creador-personaje">
-            <!-- Imagen del personaje -->
-            <div id="imagen-personaje-container">
-                <img id="imagen-personaje" src="../../multimedia/images/personaje.jpg" alt="Personaje">
+            <!-- Selección de clases -->
+            <h2>Elige tu clase</h2>
+            <div id="clases-container">
+                <div class="clase" onclick="seleccionarClase('guerrero')">
+                    <img src="../../multimedia/images/guerrero.jpg" alt="Guerrero" class="clase-imagen">
+                    <h3>Guerrero</h3>
+                    <p>Vida: 120</p>
+                    <p>Ataque: 12</p>
+                    <p>Defensa: 14</p>
+                </div>
+                <div class="clase" onclick="seleccionarClase('mago')">
+                    <img src="../../multimedia/images/mago.jpg" alt="Mago" class="clase-imagen">
+                    <h3>Mago</h3>
+                    <p>Vida: 80</p>
+                    <p>Ataque: 20</p>
+                    <p>Defensa: 5</p>
+                </div>
+                <div class="clase" onclick="seleccionarClase('arquero')">
+                    <img src="../../multimedia/images/arquero.jpg" alt="Arquero" class="clase-imagen">
+                    <h3>Arquero</h3>
+                    <p>Vida: 100</p>
+                    <p>Ataque: 15</p>
+                    <p>Defensa: 10</p>
+                </div>
             </div>
-
             <!-- Formulario para crear el personaje -->
             <form id="form-personaje">
                 <label for="nombre">Nombre del personaje:</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Introduce el nombre" required>
-
-                <h2>Distribuye tus puntos</h2>
-                <p>Puntos restantes: <span id="puntos-restantes">20</span></p>
-
-                <div class="estadisticas">
-                    <div>
-                        <label for="vida">Vida:</label>
-                        <input type="number" id="vida" name="vida" value="100" readonly>
-                    </div>
-
-                    <div>
-                        <label for="ataque">Ataque:</label>
-                        <input type="number" id="ataque" name="ataque" value="0" min="0" readonly>
-                        <button type="button" onclick="asignarPuntos('ataque', 1)">+</button>
-                        <button type="button" onclick="asignarPuntos('ataque', -1)">-</button>
-                    </div>
-
-                    <div>
-                        <label for="defensa">Defensa:</label>
-                        <input type="number" id="defensa" name="defensa" value="0" min="0" readonly>
-                        <button type="button" onclick="asignarPuntos('defensa', 1)">+</button>
-                        <button type="button" onclick="asignarPuntos('defensa', -1)">-</button>
-                    </div>
-                </div>
-
                 <button type="submit">Crear Personaje</button>
             </form>
         </div>
+        <button onclick="volverAlMenuPrincipal()">Volver al Menú Principal</button>
     </div>
-    <button onclick="volverAlMenuPrincipal()">Volver al Menú Principal</button>
-
     <script src="../scripts/creador-personaje.js"></script>
 </body>
 </html>
