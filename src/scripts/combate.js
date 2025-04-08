@@ -121,19 +121,17 @@ class Combate {
 
     defender() {
         if (this.turno !== 'jugador') return;
-
-        const defensaTemporal = 3; // Incremento temporal de defensa
+    
+        const defensaTemporal = 5; // Incremento temporal de defensa
         this.personaje.estadisticas.defensa += defensaTemporal;
-        console.log('Te has defendido, tu defensa ha aumentado temporalmente.');
-
+        console.log(`${this.personaje.nombre} se ha puesto en modo de defensa. La defensa aumentará durante 2 ataques enemigos.`);
+    
+        // Establecer un contador de ataques enemigos
+        this.defensaActiva = 2;
+    
+        // Cambiar el turno al enemigo
         this.turno = 'enemigo';
         this.accionEnemigo();
-
-        // Elimina el efecto de la defensa temporal después del ataque del enemigo
-        setTimeout(() => {
-            this.personaje.estadisticas.defensa -= defensaTemporal;
-            console.log('La defensa temporal ha terminado.');
-        }, 1000);
     }
 
     huir() {
@@ -155,15 +153,25 @@ class Combate {
 
     accionEnemigo() {
         if (this.turno !== 'enemigo') return;
-
+    
         this.enemigo.atacar(this.personaje);
-
+    
+        // Reducir el contador de defensa activa si está activo
+        if (this.defensaActiva > 0) {
+            this.defensaActiva--;
+            console.log(`Ataque enemigo recibido. Defensa activa restante: ${this.defensaActiva} ataques.`);
+            if (this.defensaActiva === 0) {
+                this.personaje.estadisticas.defensa -= 5; // Eliminar el incremento de defensa
+                console.log('El efecto de defensa ha terminado.');
+            }
+        }
+    
         if (this.personaje.estadisticas.vida <= 0) {
             alert('¡Has perdido el combate!');
             window.location.href = "lobby.html";
             return;
         }
-
+    
         this.turno = 'jugador';
         this.mostrarEstado();
     }

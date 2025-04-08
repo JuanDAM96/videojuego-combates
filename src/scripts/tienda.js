@@ -72,16 +72,35 @@ if (window.location.pathname.endsWith('tienda.html')) {
     const listaPociones = document.getElementById('lista-pociones');
     pociones.forEach(pocion => {
         const div = document.createElement('div');
+        div.className = 'pocion-item'; // Clase para aplicar estilos
         div.innerHTML = `
-            <img src="${pocion.imagen}" alt="${pocion.nombre}" style="width: 100px; height: 100px;">
-            <p>${pocion.nombre} - Cura: ${pocion.cura} - Precio: ${pocion.precio}</p>
+            <img src="${pocion.imagen}" alt="${pocion.nombre}" class="pocion-imagen">
+            <p class="pocion-nombre">${pocion.nombre}</p>
+            <p class="pocion-detalles">Cura: ${pocion.cura} - Precio: ${pocion.precio} monedas</p>
+            <label for="cantidad-${pocion.nombre}" class="pocion-cantidad-label">Cantidad:</label>
+            <input type="number" id="cantidad-${pocion.nombre}" min="1" value="1" class="pocion-cantidad-input">
         `;
         const botonComprar = document.createElement('button');
         botonComprar.innerText = 'Comprar';
-        botonComprar.onclick = () => comprarPocion(pocion);
+        botonComprar.className = 'boton-comprar'; // Clase para aplicar estilos
+        botonComprar.onclick = () => {
+            const cantidad = parseInt(document.getElementById(`cantidad-${pocion.nombre}`).value, 10);
+            comprarPocion(pocion, cantidad);
+        };
         div.appendChild(botonComprar);
         listaPociones.appendChild(div);
     });
+
+    // Mostrar dinero del jugador
+    const dineroJugadorDiv = document.createElement('div');
+    dineroJugadorDiv.className = 'dinero-jugador';
+    dineroJugadorDiv.innerHTML = `
+        <p>Dinero disponible: <span id="dinero-jugador">${personaje.dinero}</span> monedas</p>
+    `;
+    document.body.insertBefore(dineroJugadorDiv, document.body.firstChild);
+
+    const dineroJugador = document.getElementById('dinero-jugador');
+    dineroJugador.innerText = personaje.dinero;
 
     // Función para comprar armas
     function comprarArma(arma) {
@@ -89,6 +108,7 @@ if (window.location.pathname.endsWith('tienda.html')) {
             personaje.dinero -= arma.precio;
             personaje.inventario.push(arma);
             localStorage.setItem('personaje', JSON.stringify(personaje));
+            dineroJugador.innerText = personaje.dinero; // Actualizar el dinero mostrado
             alert(`Has comprado ${arma.nombre}`);
         } else {
             alert('No tienes suficiente dinero.');
@@ -96,13 +116,20 @@ if (window.location.pathname.endsWith('tienda.html')) {
     }
 
     // Función para comprar pociones
-    function comprarPocion(pocion) {
-        if (personaje.dinero >= pocion.precio) {
-            personaje.dinero -= pocion.precio;
+    function comprarPocion(pocion, cantidad) {
+        const costoTotal = pocion.precio * cantidad;
+
+        if (personaje.dinero >= costoTotal) {
+            personaje.dinero -= costoTotal;
+
             if (!personaje.pociones) personaje.pociones = [];
-            personaje.pociones.push(pocion);
+            for (let i = 0; i < cantidad; i++) {
+                personaje.pociones.push(pocion);
+            }
+
             localStorage.setItem('personaje', JSON.stringify(personaje));
-            alert(`Has comprado ${pocion.nombre}`);
+            dineroJugador.innerText = personaje.dinero; // Actualizar el dinero mostrado
+            alert(`Has comprado ${cantidad} ${pocion.nombre}(s).`);
         } else {
             alert('No tienes suficiente dinero.');
         }
